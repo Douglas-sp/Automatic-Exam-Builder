@@ -4,13 +4,21 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import spacy
 
-# Initialize NLP tools
-nltk.download('stopwords')
-nltk.download('punkt')
-nltk.download('wordnet')
+try:
+    nltk.data.find('tokenizers/punkt')
+    nltk.data.find('corpora/stopwords')
+    nltk.data.find('corpora/wordnet')
+    nlp = spacy.load('en_core_web_sm')
+except LookupError:
+    nltk.download('punkt')
+    nltk.download('stopwords')
+    nltk.download('wordnet')
+except OSError:
+    spacy.cli.download('en_core_web_sm')
+# Define Exam Generation Module
+
 nlp = spacy.load('en_core_web_sm')
 
-# Define Exam Generation Module
 class ExamGenerator:
     def __init__(self, course_material):
         self.course_material = course_material
@@ -34,15 +42,20 @@ class ExamGenerator:
     def generate_questions(self):
         # Generate questions from the analyzed course material
         for question in self.questions:
+
+            # skip question that has no pos tags
+            if not 'pos_tags' in question.keys():
+                continue
+            
             # Select the appropriate question type based on the POS tags
-            if 'VB' in question['pos_tags']:
+            if 'VERB' in question['pos_tags']:
                 # Generate a fill-in-the-blank question
-                verb_index = question['pos_tags'].index('VB')
+                verb_index = question['pos_tags'].index('VERB')
                 blank_question = question['text'][:verb_index] + '_____' + question['text'][verb_index+1:]
                 self.questions.append({'text': blank_question, 'entities': question['entities']})
-            elif 'NN' in question['pos_tags']:
+            elif 'NOUN' in question['pos_tags']:
                 # Generate a multiple choice question
-                noun_index = question['pos_tags'].index('NN')
+                noun_index = question['pos_tags'].index('NOUN')
                 correct_answer = question['tokens'][noun_index]
                 distractors = set(question['tokens']) - {correct_answer}
                 distractors = list(distractors)[:3]
@@ -66,3 +79,6 @@ class ExamGenerator:
         for i, question in enumerate(self.questions):
             exam_text += str(i+1) + '. ' + question['text'] + '\n\n'
         return exam_text
+    
+    def get_questions(self):
+        return self.questions
