@@ -7,7 +7,7 @@ from core.models.course_material import CourseMaterial
 from core.models.exam import Exam
 from core.models.question_bank import QuestionBank
 from core.engine.exam_gen import ExamGenerator
-from core.engine.exam_gen_v2 import ExamGenerationModule
+#from core.engine.exam_gen_v2 import ExamGenerationModule
 
 
 class CourseMaterialListView(LoginRequiredMixin, ListView):
@@ -78,20 +78,19 @@ class CourseMaterialV2CreateView(LoginRequiredMixin, CreateView):
             course_file=request.FILES['course_file']
         )
 
-        exam_generator = ExamGenerationModule([course_material.course_file.read().decode('utf-8')])
-        questions = exam_generator.generate_exam()
+        #exam_generator = ExamGenerationModule([course_material.course_file.read().decode('utf-8')])
+        #questions = exam_generator.generate_exam()
 
-        print(questions)
+        #print(questions)
 
         exam = Exam.objects.create(
             exam_name=course_material.course_name,
             description=f"Exam for {course_material.course_name}",
         )
 
-        for question in questions:
-            QuestionBank.objects.create(
-                exam=exam,
-                question_text=question,
-            )
+        #  QuestionBank.objects.create(
+         #       exam=exam,
+          #      question_text=question,
+           # )
 
         return redirect('exam')

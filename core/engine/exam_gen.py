@@ -4,6 +4,7 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import spacy
 
+#spacy.cli.download('en_core_web_sm') 
 try:
     nltk.data.find('tokenizers/punkt')
     nltk.data.find('corpora/stopwords')
@@ -15,6 +16,8 @@ except LookupError:
     nltk.download('wordnet')
 except OSError:
     spacy.cli.download('en_core_web_sm')
+except IOError:
+    spacy.cli.download('en_core_web_sm')   
 # Define Exam Generation Module
 
 nlp = spacy.load('en_core_web_sm')
