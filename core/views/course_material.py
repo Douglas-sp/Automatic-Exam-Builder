@@ -3,11 +3,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
+from core.engine.exam_gen import ExamGenerator
 from core.models.course_material import CourseMaterial
 from core.models.exam import Exam
 from core.models.question_bank import QuestionBank
-from core.engine.exam_gen import ExamGenerator
-from core.engine.exam_gen_v2 import ExamGenerationModule
+from core.utils.processor import DocumentProcessor
 
 
 class CourseMaterialListView(LoginRequiredMixin, ListView):
@@ -28,25 +28,21 @@ class CourseMaterialCreateView(LoginRequiredMixin, CreateView):
             course_name=request.POST['course_name'],
             course_file=request.FILES['course_file']
         )
-        exam_generator = ExamGenerator(course_material.course_file.read().decode('utf-8'))
-
-        exam_generator.analyze_course_material()
-        exam_generator.generate_questions()
-        exam_generator.filter_questions()
-
-        questions = exam_generator.get_questions()
-        print(exam_generator.format_exam())
 
         exam = Exam.objects.create(
             exam_name=course_material.course_name,
             description=f"Exam for {course_material.course_name}",
         )
 
-        for question in questions:
-            QuestionBank.objects.create(
-                exam=exam,
-                question_text=question['text'],
-            )
+        document_processor = DocumentProcessor(course_material.course_file)
+        document_processor.extract_text()
+        processed_document = document_processor.process_text()
+
+        exam_generator = ExamGenerator()
+
+        exam_generator.add_documents(processed_document)
+
+        exam_generator.generate_questions()
 
         return redirect('exam')
 
@@ -78,20 +74,9 @@ class CourseMaterialV2CreateView(LoginRequiredMixin, CreateView):
             course_file=request.FILES['course_file']
         )
 
-        exam_generator = ExamGenerationModule([course_material.course_file.read().decode('utf-8')])
-        questions = exam_generator.generate_exam()
-
-        print(questions)
-
         exam = Exam.objects.create(
             exam_name=course_material.course_name,
             description=f"Exam for {course_material.course_name}",
         )
-
-        for question in questions:
-            QuestionBank.objects.create(
-                exam=exam,
-                question_text=question,
-            )
 
         return redirect('exam')
