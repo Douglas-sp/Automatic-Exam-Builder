@@ -1,17 +1,35 @@
-<!Doctype html>
+<!DOCTYPE html>
 <html>
 <head>
 <title>Login</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
-      {% if error %}
-        <p>{{ error }}</p>
-        {% endif %}
-        <form action="{% url 'login' %}" method="post">
+    <div class="login__container">
+      <div class="login__form">
+          <h1>Login</h1>
+          <form action="{% url 'login' %}" method="post">
             {% csrf_token %}
-            <p><input type="text" name="username" placeholder="Username"></p>
-            <p><input type="password" name="password" placeholder="Password"></p>
-            <p><input type="submit" value="Login"></p>
-        </form>
+              <div class="form__group">
+                {% if error %}
+                      <div class="error">{{ error }}</div>
+                      {% endif %}
+                  <label for="username">Username</label>
+                  <input type="text" name="username" id="username" required>
+              </div>
+              <div class="form__group">
+                  <label for="password">Password</label>
+                  <input type="password" name="password" id="password" required>
+              </div>
+              <div class="form__group">
+                  <input type="submit" value="Login">
+              </div>
+              <div class="form__group">
+                  <p>Don't have an account? <a href="/">Register</a></p>
+              </div>
+          </form>
+      </div>
+  </div>
 </body>
 </html>
