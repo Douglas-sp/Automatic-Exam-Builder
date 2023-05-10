@@ -34,7 +34,8 @@ class CourseMaterialCreateView(LoginRequiredMixin, CreateView):
             description=f"Exam for {course_material.course_name}",
         )
 
-        document_processor = DocumentProcessor(course_material.course_file)
+
+        document_processor = DocumentProcessor(course_material.course_file.path)
         document_processor.extract_text()
         processed_document = document_processor.process_text()
 

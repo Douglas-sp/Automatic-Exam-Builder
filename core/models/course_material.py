@@ -9,3 +9,7 @@ class CourseMaterial(Timestamp):
 
     def __str__(self):
         return self.course_name
+
+    @property
+    def course_file_url(self):
+        return self.course_file.url

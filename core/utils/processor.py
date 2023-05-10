@@ -1,3 +1,4 @@
+from django.conf import settings
 import docx2txt
 from PyPDF2 import PdfReader
 import textract
@@ -18,19 +19,19 @@ class DocumentProcessor:
         self.text = ""
 
     def extract_text(self):
-        if self.file_extension == ".docx":
+        if self.file_extension == "docx":
             self.text = docx2txt.process(self.file_path)
-        elif self.file_extension == ".pptx":
+        elif self.file_extension == "pptx":
             ppt = Presentation(self.file_path)
             for slide in ppt.slides:
                 for shape in slide.shapes:
                     if hasattr(shape, "text"):
                         self.text += shape.text
-        elif self.file_extension == ".pdf":
+        elif self.file_extension == "pdf":
             pdf_reader = PdfReader(self.file_path)
             for page in pdf_reader.pages:
                 self.text += page.extract_text()
-        elif self.file_extension == ".txt":
+        elif self.file_extension == "txt":
             with open(self.file_path, "r") as f:
                 self.text = f.read()
         else:
@@ -62,5 +63,7 @@ class DocumentProcessor:
         return processed_text
 
     def get_file_path(self, file):
-        return os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), file)
+        # use COURSE_MATERIALS_DIR from settings.py
+        # to get the absolute path of the file
+        return os.path.join(settings.COURSE_MATERIALS_DIR, file.split("/")[-1])
 
