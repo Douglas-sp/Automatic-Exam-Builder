@@ -18,6 +18,7 @@ class ExamGenerator:
         self.question_generator = QuestionGenerator()
 
     def add_documents(self, documents):
+        self.document_store.delete_all_documents()
         self.document_store.write_documents(documents)
 
     @staticmethod
@@ -31,5 +32,5 @@ class ExamGenerator:
         question_generation_pipeline = QuestionGenerationPipeline(self.question_generator)
         for idx, document in enumerate(self.document_store):
             print(f" *** Generating questions for document {idx} ***  {document.content[:50]}")
-            result = question_generation_pipeline.run(documents=[document])
-        return result
+            results = question_generation_pipeline.run(documents=[document])
+        return results

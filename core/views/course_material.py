@@ -48,6 +48,7 @@ class CourseMaterialCreateView(LoginRequiredMixin, CreateView):
         print(f"Questions: {questions}")
 
 
+
         return redirect('exam')
 
 
