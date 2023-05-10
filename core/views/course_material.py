@@ -45,7 +45,7 @@ class CourseMaterialCreateView(LoginRequiredMixin, CreateView):
 
         questions = exam_generator.generate_questions()
 
-        print(f"Questions: {questions}")
+        questions = questions['generated_questions'][0]['questions']
 
 
 

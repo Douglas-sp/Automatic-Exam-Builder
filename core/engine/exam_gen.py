@@ -18,7 +18,7 @@ class ExamGenerator:
         self.question_generator = QuestionGenerator()
 
     def add_documents(self, documents):
-        self.document_store.delete_all_documents()
+        self.document_store.delete_documents()
         self.document_store.write_documents(documents)
 
     @staticmethod
