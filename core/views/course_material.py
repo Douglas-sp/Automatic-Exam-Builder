@@ -47,7 +47,9 @@ class CourseMaterialCreateView(LoginRequiredMixin, CreateView):
 
         questions = questions['generated_questions'][0]['questions']
 
-
+        QuestionBank.objects.bulk_create([
+            QuestionBank(exam=exam, question_text=question) for question in questions
+        ])
 
         return redirect('exam')
 
