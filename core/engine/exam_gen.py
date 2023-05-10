@@ -32,4 +32,4 @@ class ExamGenerator:
         for idx, document in enumerate(self.document_store):
             print(f" *** Generating questions for document {idx} ***  {document.content[:50]}")
             result = question_generation_pipeline.run(documents=[document])
-            print(result)
+        return result

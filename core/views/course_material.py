@@ -38,12 +38,15 @@ class CourseMaterialCreateView(LoginRequiredMixin, CreateView):
         document_processor = DocumentProcessor(course_material.course_file.path)
         document_processor.extract_text()
         processed_document = document_processor.process_text()
-
+        
         exam_generator = ExamGenerator()
 
         exam_generator.add_documents(processed_document)
 
-        exam_generator.generate_questions()
+        questions = exam_generator.generate_questions()
+
+        print(f"Questions: {questions}")
+
 
         return redirect('exam')
 

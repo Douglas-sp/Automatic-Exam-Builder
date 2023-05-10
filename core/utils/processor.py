@@ -60,7 +60,9 @@ class DocumentProcessor:
         # Finally, join the paragraphs back together with double newlines
         processed_text = '\n\n'.join(paragraphs)
 
-        return processed_text
+        docs = [{"content": text} for text in paragraphs]
+
+        return docs
 
     def get_file_path(self, file):
         # use COURSE_MATERIALS_DIR from settings.py
