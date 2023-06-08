@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generated Questions</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 20mm 20mm 20mm;
+        }
+
+        body {
+            padding: 20px;
+        }
+
+        .question {
+            margin-bottom: 30px;
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .exam-name {
+            font-style: italic;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header text-center">
+            <h1>Generated Questions</h1>
+        </div>
+
+        {% if question_list %}
+        <div class="question">
+            {% for question in question_list %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title question-text">Question {{ forloop.counter }}: {{ question.question_text }}</h5>
+                    <p class="card-text exam-name">Exam: {{ question.exam.exam_name }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center">
+            <p>No questions available.</p>
+        </div>
+        {% endif %}
+
+        <div class="footer">
+            <p>Generated on {{ current_date }}</p>
+        </div>
+
+        <form method="POST" action="{% url 'generate_pdf' %}">
+            {% csrf_token %}
+            <input type="hidden" name="exam_id" value="{{ exam_id }}">
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary" {% if not question_list %}disabled{% endif %}>Download as PDF</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

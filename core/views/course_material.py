@@ -51,7 +51,7 @@ class CourseMaterialCreateView(LoginRequiredMixin, CreateView):
             QuestionBank(exam=exam, question_text=question) for question in questions
         ])
 
-        return redirect('exam')
+        return redirect('exams')
 
 
 class CourseMaterialUpdateView(LoginRequiredMixin, UpdateView):

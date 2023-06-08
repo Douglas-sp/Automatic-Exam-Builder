@@ -25,9 +25,11 @@ SECRET_KEY = 'django-insecure-i-g5ua%ekb+wc82rl=+l(x#v!)&%kq+x_w!v@&^h10!kr_vza^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['8000-douglassp-automaticexam-rgk6wufkw4i.ws-eu96b.gitpod.io','localhost']
+ALLOWED_HOSTS = ['8000-douglassp-automaticexam-rgk6wufkw4i.ws-eu99.gitpod.io','localhost']
 CSRF_TRUSTED_ORIGINS = [
     'https://8000-douglassp-automaticexam-rgk6wufkw4i.ws-eu96b.gitpod.io',
+    'https://8000-douglassp-automaticexam-rgk6wufkw4i.ws-eu97.gitpod.io',
+    'https://8000-douglassp-automaticexam-rgk6wufkw4i.ws-eu99.gitpod.io'
 ]
 
 
