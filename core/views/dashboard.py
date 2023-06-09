@@ -12,8 +12,8 @@ class DashboardView(LoginRequiredMixin, View):
     login_url = reverse_lazy('login')
 
     def get(self, request):
-        course_materials = CourseMaterial.objects.all()
-        exams = Exam.objects.all()
-        question_banks = QuestionBank.objects.all()
+        course_materials = CourseMaterial.objects.count()
+        exams = Exam.objects.count()
+        question_banks = QuestionBank.objects.count()
         return render(request, 'dashboard.html',
                       {'course_materials': course_materials, 'exams': exams, 'question_banks': question_banks})
