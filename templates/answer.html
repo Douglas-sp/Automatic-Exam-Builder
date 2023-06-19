@@ -1,7 +1,78 @@
+{% extends 'base.html' %}
 
-{% for answer in answers %}
-    <div class="answer">
-        <p>{{ answer.answer_text }}</p>
-        <p>{{ answer.answer_date }}</p>
-    </div>
-{% endfor %}
+{% block content %}
+<style>
+  @page {
+    size: A4;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    margin: 2cm;
+  }
+
+  .container {
+    max-width: 21cm;
+    margin: 0 auto;
+    padding: 1cm;
+    box-sizing: border-box;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .page-break {
+    page-break-after: always;
+  }
+
+  .heading {
+    margin-bottom: 1cm;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .question {
+    margin-bottom: 1.5cm;
+  }
+
+  .question-number {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .question-text {
+    margin-top: 0.5cm;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .answer {
+    margin-bottom: 1.5cm;
+  }
+
+  .answer-text {
+    margin-top: 0.5cm;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+</style>
+
+<div class="container">
+  <div class="heading">Questions and Answers for Exam "{{ exam_name }}"</div>
+
+  {% for item in question_answer_list %}
+  <div class="question">
+    <div class="question-number">Question {{ forloop.counter }}</div>
+    <div class="question-text">{{ item.question }}</div>
+  </div>
+  <div class="answer">
+    <div class="answer-text">Answer: {{ item.answer }}</div>
+  </div>
+  {% if forloop.counter < question_answer_list|length %}
+  <div class="page-break"></div>
+  {% endif %}
+  {% endfor %}
+</div>
+{% endblock %}
