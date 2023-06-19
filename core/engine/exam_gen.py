@@ -29,8 +29,11 @@ class ExamGenerator:
         return document
 
     def generate_questions(self):
-        question_generation_pipeline = QuestionGenerationPipeline(self.question_generator)
+        question_generation_pipeline = QuestionAnswerGenerationPipeline(
+            generator=self.question_generator,
+            retriever=self.retriever,
+        )
         for idx, document in enumerate(self.document_store):
-            print(f" *** Generating questions for document {idx} ***  {document.content[:50]}")
+            print(f" *** Generating questions and answers for document {idx} ***  {document.content[:50]}")
             results = question_generation_pipeline.run(documents=[document])
         return results
