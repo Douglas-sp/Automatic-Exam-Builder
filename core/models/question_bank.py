@@ -6,6 +6,9 @@ class QuestionBank(Timestamp):
     exam = models.ForeignKey('Exam', on_delete=models.CASCADE, related_name='questions')
     question_text = models.TextField(blank=False, null=False)
 
+    class Meta:
+        ordering = ('-created_at',)
+
     def __str__(self):
         return self.question_text
 

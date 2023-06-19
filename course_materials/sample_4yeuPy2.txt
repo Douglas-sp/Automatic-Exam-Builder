@@ -1,0 +1,11 @@
+The history of Django began when Adrian Holovaty and Simon Willison started using Python to build applications for their journalism jobs. They wanted a web framework that was easy to use and would enable them to quickly build their applications. In 2003, they started working on a web framework that eventually became known as Django.
+
+Django is a high-level Python web framework that enables the rapid development of secure and maintainable websites. It is free and open source, and it is widely used by developers around the world.
+
+One of the key features of Django is its ability to handle the common tasks of web development, such as authentication, URL routing, and database management, which allows developers to focus on building their applications rather than dealing with these low-level details.
+
+Django also includes a powerful Object-Relational Mapping (ORM) system, which enables developers to work with databases in a more intuitive and natural way. The ORM system maps Python objects to database tables, allowing developers to interact with the database using familiar Python syntax.
+
+Another important feature of Django is its built-in admin interface, which provides a convenient way for site administrators to manage content, users, and other site-related tasks.
+
+Overall, Django is a powerful and flexible web framework that is well-suited for a wide range of web development projects.

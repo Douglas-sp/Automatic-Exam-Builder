@@ -16,6 +16,7 @@ class ExamGenerator:
         self.retriever = None
         self.pipeline = None
         self.question_generator = QuestionGenerator()
+        self.reader = FARMReader("deepset/roberta-base-squad2")
 
     def add_documents(self, documents):
         self.document_store.delete_documents()
@@ -30,10 +31,11 @@ class ExamGenerator:
 
     def generate_questions(self):
         question_generation_pipeline = QuestionAnswerGenerationPipeline(
-            generator=self.question_generator,
-            retriever=self.retriever,
-        )
-        for idx, document in enumerate(self.document_store):
+            self.question_generator,
+            self.reader
+            )
+        for idx, document in enumerate(tqdm(self.document_store)):
             print(f" *** Generating questions and answers for document {idx} ***  {document.content[:50]}")
             results = question_generation_pipeline.run(documents=[document])
-        return results
+            
+        return { 'questions': results['queries'], 'answers': results['answers'] }
