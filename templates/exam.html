@@ -1,3 +1,149 @@
+{% extends "base.html" %}
+{% block title %} Exams List {% endblock %}
+{% block content %}
+<div class="page-wrapper">
+    <div class="page-header d-print-none">
+        <div class="container-xl">
+          <div class="row g-2 align-items-center">
+            <div class="col">
+              <h2 class="page-title">
+                 Exams List
+              </h2>
+              {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-important alert-success alert-dismissible" role="alert">
+                        <div class="d-flex">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M5 12l5 5l10 -10"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            {{  message }}
+                        </div>
+                        </div>
+                        <a class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="close"></a>
+                    </div>
+                    {% endfor %}
+            {% endif %}
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="card">
+                <div class="card-body border-bottom py-3">
+                    <div class="table-responsive table card-table table-vcenter text-nowrap datatable" id="table-exams">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Exam Name</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-tbody">
+                                {% for exam in exams %}
+                                    <tr>
+                                        <td class="sort-{{ exam.exam_name}}">{{ exam.exam_name }}</td>
+                                        <td>{{ exam.description }}</td>
+                                        <td>
+                                            <a href="{% url 'question_bank' %}?exam_id={{ exam.id }}" class="btn btn-primary">Generated Questions</a>
+                                            <a href="{% url 'answers' %}?exam_id={{ exam.id }}" class="btn btn-secondary">View Answers</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center">
+                    <p class="m-0 text-muted">Showing <span>{{ exams.start_index }}</span> to <span>{{ exams.end_index }}</span> of <span>{{ exams.paginator.count }}</span> entries</p>
+                    <ul class="pagination m-0 ms-auto">
+                        {% if exams.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1">
+                                    <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M15 6l-6 6l6 6"></path>
+                                    </svg>
+                                    prev
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                                    <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M15 6l-6 6l6 6"></path>
+                                    </svg>
+                                    prev
+                                </a>
+                            </li>
+                        {% endif %}
+                
+                        {% for page in exams.paginator.page_range %}
+                            {% if page == exams.number %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="#">{{ page }}</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                
+                        {% if exams.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ exams.next_page_number }}">
+                                    next
+                                    <!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M9 6l6 6l-6 6"></path>
+                                    </svg>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                                    next
+                                    <!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M9 6l6 6l-6 6"></path>
+                                    </svg>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+{% block custom_scripts %} 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const list = new List('table-exams', {
+        sortClass: 'table-sort',
+        listClass: 'table-tbody',
+        valueNames: [ 'sort-name', 'sort-type', 'sort-city', 'sort-score',
+            { attr: 'data-date', name: 'sort-date' },
+            { attr: 'data-progress', name: 'sort-progress' },
+            'sort-quantity'
+        ]
+    });
+    })
+  </script>
+  {% endblock %}
 <!DOCTYPE html>
 <html>
 <head>

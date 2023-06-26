@@ -1,14 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/css/bootstrap.min.css">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/tabler.min.css' %}">
+
+  <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
   <!-- Your page content -->
+  {% if request.resolver_match.url_name == 'login' %}
+    <div class="page page-center">
+  {% else %}
+    <div class="page">
+  {% endif %}
+
+  {% if not request.resolver_match.url_name == 'login' %}
+    {% include 'sidebar.html' %}
+  {% endif %}
   {% block content %}
   {% endblock %}
-  <!-- Bootstrap JS and other scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/js/bootstrap.bundle.min.js"></script>
+  {% load static %}
+  <script src="{% static 'js/tabler.min.js' %}" defer></script>
+  <script src="https://tabler.io/demo/dist/libs/list.js/dist/list.min.js?1685976846" defer></script>
+  {% block custom_scripts %} 
+  {% endblock %}
 </body>
 </html>
