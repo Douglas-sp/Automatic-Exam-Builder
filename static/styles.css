@@ -83,3 +83,120 @@
   font-weight: 500;
   margin-top: 5px;
 }
+/* 
+new css
+*/
+@import url('https://fonts.googleapis.com/css2?family=Dawning+of+a+New+Day&family=Maven+Pro:wght@400;500;600;700;800;900&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Maven Pro", sans-serif;
+}
+
+/* Login page */
+.login__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.login__container .login__form {
+  width: 400px;
+  padding: 40px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login__form h1 {
+  font-size: 2.5rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login__form .form__group {
+  margin-bottom: 20px;
+}
+
+.login__form .form__group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.login__form .form__group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.login__form .form__group input:focus {
+  outline: none;
+  border-color: #333;
+}
+
+/* submit button */
+.login__form .form__group input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 5px;
+  background-color: #333;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* errors */
+.login__form .form__group .error {
+  color: #f00;
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+/* success */
+.login__form .form__group .success {
+  color: #0f0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+/* FILE UPLOAD PAGE */
+.clickable-text {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.upload-zone {
+  border: 2px dashed #0a0707;
+  /* padding: 2rem; */
+  text-align: center;
+  /* font-family: 'Dawning of a New Day', cursive; */
+  font-size: 1.5rem;
+  /* color: #ccc; */
+  width: 500px;
+  height: 500px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+
+ 
+ 

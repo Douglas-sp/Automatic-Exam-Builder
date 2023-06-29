@@ -18,6 +18,7 @@ urlpatterns = [
     path('course_material/create_v2/', CourseMaterialV2CreateView.as_view(), name='course_material_create_v2'),
     path('question_bank', GeneratedQuestionsView.as_view(), name='question_bank'),
     path('generate-pdf/', GeneratedQuestionsView.as_view(), name='generate_pdf'),
-    
-
+    path('dashboard/',DashboardView.as_view(), name='home'),
+    path('help/', DashboardView.helpView, name='help')
+   
 ]
