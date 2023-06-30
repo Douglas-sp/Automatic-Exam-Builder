@@ -197,6 +197,9 @@ new css
   height: 100vh;
 }
 
+.centered-header {
+  text-align: center;
+}
 
  
  
