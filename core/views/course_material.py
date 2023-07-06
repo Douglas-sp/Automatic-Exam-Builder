@@ -56,31 +56,37 @@ class CourseMaterialCreateView(LoginRequiredMixin, CreateView):
         except MultiValueDictKeyError:
             return render(request, 'course_material_create.html', {'error': 'Please provide both Course Name and Course File'})
 
-        course_material = CourseMaterial.objects.create(
-            course_name=course_name,
-            course_file=course_file
-        )
+        try:
+            course_material = CourseMaterial.objects.create(
+                course_name=course_name,
+                course_file=course_file
+            )
 
-        exam = Exam.objects.create(
-            exam_name=course_material.course_name,
-            description=f"Exam for {course_material.course_name}",
-        )
+            exam = Exam.objects.create(
+                exam_name=course_material.course_name,
+                description=f"Exam for {course_material.course_name}",
+            )
 
-        document_processor = DocumentProcessor(course_material.course_file.path)
-        document_processor.extract_text()
-        processed_document = document_processor.process_text()
+            document_processor = DocumentProcessor(course_material.course_file.path)
+            document_processor.extract_text()
+            processed_document = document_processor.process_text()
 
-        exam_generator = ExamGenerator()
-        exam_generator.add_documents(processed_document)
+            exam_generator = ExamGenerator()
+            exam_generator.add_documents(processed_document)
 
-        # Create a thread for generating questions
-        question_thread = threading.Thread(target=self.generate_questions_and_save, args=(exam, exam_generator))
-        question_thread.start()
+            # Create a thread for generating questions
+            question_thread = threading.Thread(target=self.generate_questions_and_save, args=(exam, exam_generator))
+            question_thread.start()
 
-        # Add a success message
-        messages.success(request, f'Exam generation for {course_material.course_name} in progress. Please wait.')
+            # Add a success message
+            messages.success(request, f'Exam generation for {course_material.course_name} in progress. Please wait.')
 
-        return redirect('exam')
+            return redirect('exam')
+        except Exception as e:
+            # delete the course material if an error occurs
+            course_material.delete()
+            exam.delete()
+            return render(request, 'course_material_create.html', {'error': f'Error: {e}'})
 
     def generate_questions_and_save(self, exam, exam_generator):
         """
